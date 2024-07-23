@@ -4,7 +4,6 @@ import Navbar from '@/components/navbar'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { LoadingOutlined } from '@ant-design/icons'
 import toast from 'react-hot-toast'
@@ -41,6 +40,7 @@ function Quiz() {
   }, [session, quizname])
 
   const scoreChange = async (teamname, action)=> {
+    console.log(`Changing score for ${teamname} by ${action}`)
     try {
       const response = await fetch('/api/score', {
         cache: 'no-store',
@@ -67,6 +67,31 @@ function Quiz() {
     }
   
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const key = event.key;
+      
+      if (key >= '1' && key <= '9') {
+        const index = parseInt(key) - 1;
+        if (teams[index]) {
+          if (event.altKey) {
+            console.log(`Decreasing score for team ${teams[index].name}`);
+            scoreChange(teams[index].name, 'decrease');
+          } else {
+            console.log(`Increasing score for team ${teams[index].name}`);
+            scoreChange(teams[index].name, 'increase');
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [teams]);
 
   const finishQuiz = async () => {
     setLoading(true)
@@ -110,10 +135,6 @@ function Quiz() {
                   <h3>{team.name}</h3>
                   <p>Members: {team.members}</p>
                   <p className="">score: {team.score}</p>
-                  <div className="absolute bottom-2 right-2 flex gap-4">
-                    <Image onClick={()=>scoreChange(team.name, 'increase')} src='/add.png' alt='add point' width={25} height={25} className="cursor-pointer"/>
-                    <Image onClick={()=>scoreChange(team.name, 'decrease')} src='/remove.png' alt='add point' width={25} height={25} className="cursor-pointer"/>
-                  </div>
                 </div>
               ))}
             </div>

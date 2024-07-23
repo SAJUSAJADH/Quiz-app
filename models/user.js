@@ -24,6 +24,9 @@ const QuizSchema = new mongoose.Schema({
     cordinator: {
         name: String
     },
+    school: {
+        type: String
+    },
     teams: [TeamSchema],
     winner: {
         type: [String],

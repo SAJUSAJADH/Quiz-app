@@ -17,6 +17,7 @@ function Dashboard() {
     const [showPopOver, setShowPopover] = useState(false)
     const [title, setTitle] = useState('')
     const [cordinator, setCordinator] = useState('')
+    const [school, setSchool] = useState('school')
     const router= useRouter()
     const [quizzes, setQuizzes] = useState([])
     const [loading, setLoading] = useState(true)
@@ -50,7 +51,7 @@ function Dashboard() {
     setLoading(true)
     try{
       e.preventDefault();
-      if (!title || !cordinator) {
+      if (!title || !cordinator || ! school) {
         setError('please fill the fields')
          setLoading(false)
          return;
@@ -61,13 +62,12 @@ function Dashboard() {
       headers: {
         'Content-Type': 'applications/json',
       },
-      body: JSON.stringify({title, cordinator, username: session.username})
+      body: JSON.stringify({title, cordinator, school,  username: session.username})
     })
       const data = await response.json()
       const ok = data?.message === 'ok'
       if(ok){
         router.push(`/dashboard/${title}`)
-        setLoading(false)
       }else{
         setLoading(false)
         setError('Quiz with this title already exists')
