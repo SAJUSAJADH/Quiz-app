@@ -2,10 +2,14 @@
 
 import Navbar from "@/components/navbar";
 import Quiz from "@/components/quiz";
+import { app } from "@/firebase";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4} from 'uuid'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import ProfilePhotoUploader from "@/components/uploader";
 
 
 
@@ -22,6 +26,11 @@ function Dashboard() {
     const [quizzes, setQuizzes] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [fileSelected, setFileSelected] = useState(false);
+    const [previewImg, setPreviewImg] = useState('https://w7.pngwing.com/pngs/912/224/png-transparent-computer-icons-institution-funds-miscellaneous-blue-text-thumbnail.png');
+
+    console.log(session)
+   
 
    useEffect(()=>{
     if(session){
@@ -47,6 +56,36 @@ function Dashboard() {
     setLoading(false);
   }, "3000");
     
+
+  const uploadProfile = async (e) => {
+      const blob = await fetch(profilePreview).then((res) => res.blob());
+      const uniqueId = uuidv4();
+      const fileName = `${uniqueId}`;
+      const storage = await getStorage(app);
+      const storageRef = await ref(storage, `profile/${fileName}`);
+      const metadata = {
+        contentType: 'image/jpeg', // Set the content type to image/jpeg
+      };
+  
+      await uploadBytes(storageRef, blob, metadata);
+      console.log('uploaded');
+      const downloadURL = await getDownloadURL(storageRef);
+      await fetch('/api/upload', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'applications/json',
+        },
+        cache: 'no-store',
+        body: JSON.stringify({id: session._id, downloadURL})
+      })
+    
+  };
+
+
+
+
+
+
   const createquiz = async (e) => {
     setLoading(true)
     try{
@@ -118,6 +157,7 @@ function Dashboard() {
           <form className="space-y-6" >
 
           <div>
+          
               <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                 School Name
               </label>
@@ -132,6 +172,7 @@ function Dashboard() {
                 />
               </div>
             </div>
+            <ProfilePhotoUploader previewImg={previewImg} setPreviewImg={setPreviewImg}/>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                 Quiz Title

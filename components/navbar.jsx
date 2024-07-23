@@ -32,7 +32,7 @@ const Navbar = () => {
           >
             <Image width={10} height={10} src='/icon-html.svg' alt='logo' className="h-7 w-7 sm:h-10 sm:w-10" />
           </div>
-          <h1 onClick={()=>router.push('/')} className={`text-[18px] ${theme === 'dark' ? 'text-white' : 'text-black'} font-bold cursor-pointer sm:text-[28px]`}>Chinmaya</h1>
+          <h1 onClick={()=>router.push('/')} className={`text-[18px] ${theme === 'dark' ? 'text-white' : 'text-black'} font-bold text-teal-500 font-title cursor-pointer sm:text-[28px]`}>Chinmaya</h1>
         </section>
       <section className="flex items-center gap-2 sm:gap-3">
         {theme === 'dark' ? (

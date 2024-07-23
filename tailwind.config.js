@@ -27,6 +27,10 @@ module.exports = {
         backgroundTabletDark: "url('/tablet.svg')",
         backgroundTabletLight: "url('/tablet-light.svg')",
       },
+      fontFamily:{
+        score:['Oswald','sans-serif'],
+        title:['Concert One', 'sans-serif'],
+      }
     },
   },
   plugins: [],

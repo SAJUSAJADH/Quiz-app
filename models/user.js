@@ -41,6 +41,9 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String
     },
+    profilepic: {
+        type: String
+    },
     quizzes: [QuizSchema]
 });
 

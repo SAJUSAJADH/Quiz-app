@@ -124,7 +124,7 @@ function Quiz() {
     <>
       <Navbar />
       <div className="container relative mx-auto p-4  text-black ">
-        <h2 className="text-3xl font-normal pb-4 dark:text-white mb-4 font-serif text-black justify-center items-center flex">{quizname} SCOREBOARD</h2>
+        <h2 className="text-3xl font-bold pb-4 dark:text-white mb-4 font-score text-black justify-center items-center flex text-red"> SCOREBOARD</h2>
         
           {teams.length > 0 ?
           <>
