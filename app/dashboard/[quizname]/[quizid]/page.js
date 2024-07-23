@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LoadingOutlined } from '@ant-design/icons'
 import toast from 'react-hot-toast'
+import Card from '@/components/Teams'
 
 
 function Quiz() {
@@ -72,8 +73,8 @@ function Quiz() {
     const handleKeyDown = (event) => {
       const key = event.key;
       
-      if (key >= '1' && key <= '9') {
-        const index = parseInt(key) - 1;
+      if ((key >= '1' && key <= '9') || key === '0') {
+        const index = key === '0' ? 9 : parseInt(key) - 1; // '0' maps to 9, '1'-'9' map to 0-8
         if (teams[index]) {
           if (event.altKey) {
             console.log(`Decreasing score for team ${teams[index].name}`);
@@ -91,7 +92,9 @@ function Quiz() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [teams]);
+  }, [teams, scoreChange]);
+
+
 
   const finishQuiz = async () => {
     setLoading(true)
@@ -120,22 +123,15 @@ function Quiz() {
   return (
     <>
       <Navbar />
-      <div className="container relative mx-auto p-4 bg-gray-300 shadow-md rounded text-black h-[70vh] z-40">
-        <h2 className="text-3xl font-bold mb-4 text-black justify-center items-center flex">SCOREBOARD</h2>
+      <div className="container relative mx-auto p-4  text-black ">
+        <h2 className="text-3xl font-normal pb-4 dark:text-white mb-4 font-serif text-black justify-center items-center flex">{quizname} SCOREBOARD</h2>
         
           {teams.length > 0 ?
           <>
             <div>
             <div className="grid lg:grid-cols-3 gap-4">
               {teams.map((team, index) => (
-                <div
-                  key={index}
-                  className="rounded relative bg-white p-4 text-black shadow-md flex flex-col justify-center items-center"
-                >
-                  <h3>{team.name}</h3>
-                  <p>Members: {team.members}</p>
-                  <p className="">score: {team.score}</p>
-                </div>
+                <Card key={index} index={index} team={team}/>
               ))}
             </div>
           </div>
@@ -143,7 +139,9 @@ function Quiz() {
          : (
             <p></p>
           )}
-        <button disabled={loading} onClick={finishQuiz} className='bg-blue-500 absolute bottom-4 right-1/2 px-4 text-white py-2 rounded-md'>{loading ? <LoadingOutlined/> : 'Finish quiz'}</button>
+        <div className='flex justify-center items-center pb-4'>
+        <button disabled={loading} onClick={finishQuiz} className='bg-teal-500  px-4 text-white py-2 rounded-md'>{loading ? <LoadingOutlined/> : 'Finish quiz'}</button>
+        </div>
       </div>
     </>
   )

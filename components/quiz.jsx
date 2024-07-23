@@ -21,10 +21,11 @@ function Quiz({quizzes}) {
              <div className="font-bold text-center dark:text-black text-xl mb-2">{quiz.title}</div>
          </div>
          <div className="px-6 pt-4 pb-2 flex flex-col text-center">
-             <span className="inline-block bg-yellow-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">cordinator: {quiz.cordinator.name}</span>
-             <span className="inline-block bg-green rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">status: {quiz.winner ? 'completed' : 'Ongoing'}</span>
+             <span className="inline-block py-3 bg-yellow-200 rounded-full px-3 text-sm font-semibold text-gray-700 mr-2 mb-2">Cordinator: {quiz.cordinator.name}</span>
+             <span className="inline-block py-3 bg-green rounded-full px-3  text-sm font-semibold text-gray-700 mr-2 mb-2">Status: {quiz.winner ? 'completed' : 'Ongoing'}</span>
          </div>
          </div>
+        
     ))}
    </div>
   )

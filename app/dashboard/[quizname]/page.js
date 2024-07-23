@@ -18,6 +18,7 @@ function QuizName() {
     const router = useRouter()
     const [loading,setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [quizload, setQuizload] = useState(false)
 
     useEffect(()=>{
       async function getData(){
@@ -83,6 +84,7 @@ function QuizName() {
 
     const route = (e) => {
       e.preventDefault();
+      setQuizload(true)
       router.push(`/dashboard/${quizname}/${id}`)
     }
 
@@ -91,7 +93,7 @@ function QuizName() {
     <Navbar
         themeMode={'light'}
       />
-      <TeamForm error={error} teamName={teamName} loading={loading} teamMembers={teamMembers} setTeamName={setTeamName} setTeamMembers={setTeamMembers} Add={Add} teams={Teams} route={route} />
+      <TeamForm error={error} quizload={quizload} teamName={teamName} loading={loading} teamMembers={teamMembers} setTeamName={setTeamName} setTeamMembers={setTeamMembers} Add={Add} teams={Teams} route={route} />
     </>
   )
 }

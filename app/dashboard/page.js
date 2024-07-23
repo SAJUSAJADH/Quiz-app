@@ -17,7 +17,7 @@ function Dashboard() {
     const [showPopOver, setShowPopover] = useState(false)
     const [title, setTitle] = useState('')
     const [cordinator, setCordinator] = useState('')
-    const [school, setSchool] = useState('school')
+    const [school, setSchool] = useState('')
     const router= useRouter()
     const [quizzes, setQuizzes] = useState([])
     const [loading, setLoading] = useState(true)
@@ -88,7 +88,7 @@ function Dashboard() {
         
         
         <button
-          className="mx-auto mb-14 flex items-center justify-center rounded-lg bg-teal-700 px-5 py-2.5 text-3xl font-medium text-white"
+          className="mx-auto mb-14 flex items-center justify-center rounded-lg bg-teal-500 px-5 py-2.5 text-3xl font-medium text-white"
           onClick={()=>setShowPopover(true)}
         >
           Create Quiz
@@ -101,45 +101,90 @@ function Dashboard() {
         </>
       
       )}  
-        {showPopOver  &&
-        (<form
-          className="mx-auto max-w-md rounded bg-white p-4 shadow-md"
-        >
-          <h2 className="mb-4 text-3xl font-bold text-emerald-600">
+        {showPopOver  && (
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6  lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img
+            alt="Your Company"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9gDujS4O5Eqe1NrlXwaFNvTf53q6ulWo1cg&s"
+            className="mx-auto h-10 w-auto bg-clip-padding bg-transparent rounded-full"
+          />
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
             Create Quiz
           </h2>
-          <label className="mb-4 block">
-            <span className="text-gray-700">Title</span>
-            <input
-              type="text"
-              value={title}
-              onChange={(e)=>setTitle(e.target.value)}
-             name='title'
-              className="block w-full border border-gray-300 p-2 pl-10 text-sm text-gray-700"
-              placeholder="Enter quiz title"
-            />
-          </label>
-          <label className="mb-4 block">
-            <span className="text-gray-700">Coordinator</span>
-            <input
-              type="text"
-              value={cordinator}
-              onChange={(e)=>setCordinator(e.target.value)}
-              name='cordinator'
-              className="mb-5 block w-full border border-gray-300 p-2 pl-10 text-sm text-gray-700"
-              placeholder="Enter coordinator name"
-              autoComplete="off"
-            />
-          </label>
-          <button
-            onClick={createquiz}
-            disabled={loading}
-            className="mb-4 w-full rounded bg-orange-500 px-4 py-2 font-bold text-white hover:bg-orange-700"
-          >
-            {loading ? <LoadingOutlined/> : 'Next'}
-          </button>
-          <p className='text-sm text-center text-red'>{error && error}</p>
-        </form>)}  
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form className="space-y-6" >
+
+          <div>
+              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                School Name
+              </label>
+              <div className="mt-2">
+                <input
+                  name="School Name"
+                  value={school}
+                  onChange={(e)=>setSchool(e.target.value)}
+                  type="text"
+                  required
+                  className="block bg-white px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                Quiz Title
+              </label>
+              <div className="mt-2">
+                <input
+                  name="Title"
+                  type="text"
+                  value={title}
+                  onChange={(e)=>setTitle(e.target.value)}
+                  required
+                  className="block bg-white px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
+                  Coordinator
+                </label>
+                
+              </div>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  value={cordinator}
+                  onChange={(e)=>setCordinator(e.target.value)}
+                  name='cordinator'
+                  required
+                  autoComplete="current-password"
+                  className="block bg-white px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              {error && <p className="py-3">{error}</p>}
+              <button
+                type="submit"
+                onClick={createquiz}
+                disabled={loading}
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                {loading ? <LoadingOutlined/> : 'Next'}
+              </button>
+            </div>
+          </form>
+
+          
+        </div>
+      </div>
+        )}  
        
     </>
   )
