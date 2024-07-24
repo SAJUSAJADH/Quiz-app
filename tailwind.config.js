@@ -30,6 +30,7 @@ module.exports = {
       fontFamily:{
         score:['Oswald','sans-serif'],
         title:['Concert One', 'sans-serif'],
+        logo: ['Poppins', 'sans-serif'],
       }
     },
   },
