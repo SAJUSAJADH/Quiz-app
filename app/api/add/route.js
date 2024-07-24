@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    const { teamName, teamMembers, username, quizname } = await request.json();
+    const { teamName, teamMembers, school, username, quizname, url } = await request.json();
     const user = await User.findOne({ username: username });
 
     if (user) {
@@ -17,7 +17,7 @@ export async function POST(request) {
         if (existingTeam) {
           return NextResponse.json({ message: 'Team already exists' });
         } else {
-          user.quizzes[quizIndex].teams.push({ name: teamName, members: teamMembers, score: 0 });
+          user.quizzes[quizIndex].teams.push({ name: teamName, members: teamMembers, school: school, score: 0, url });
           await user.save();
           const quiz = user.quizzes[quizIndex];
           return NextResponse.json({ message: 'ok', quiz });

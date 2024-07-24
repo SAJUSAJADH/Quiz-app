@@ -7,9 +7,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4} from 'uuid'
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import ProfilePhotoUploader from "@/components/uploader";
+
+
 
 
 
@@ -21,13 +20,11 @@ function Dashboard() {
     const [showPopOver, setShowPopover] = useState(false)
     const [title, setTitle] = useState('')
     const [cordinator, setCordinator] = useState('')
-    const [school, setSchool] = useState('')
     const router= useRouter()
     const [quizzes, setQuizzes] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
-    const [fileSelected, setFileSelected] = useState(false);
-    const [previewImg, setPreviewImg] = useState('https://w7.pngwing.com/pngs/912/224/png-transparent-computer-icons-institution-funds-miscellaneous-blue-text-thumbnail.png');
+    
 
     console.log(session)
    
@@ -57,29 +54,7 @@ function Dashboard() {
   }, "3000");
     
 
-  const uploadProfile = async (e) => {
-      const blob = await fetch(profilePreview).then((res) => res.blob());
-      const uniqueId = uuidv4();
-      const fileName = `${uniqueId}`;
-      const storage = await getStorage(app);
-      const storageRef = await ref(storage, `profile/${fileName}`);
-      const metadata = {
-        contentType: 'image/jpeg', // Set the content type to image/jpeg
-      };
   
-      await uploadBytes(storageRef, blob, metadata);
-      console.log('uploaded');
-      const downloadURL = await getDownloadURL(storageRef);
-      await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'applications/json',
-        },
-        cache: 'no-store',
-        body: JSON.stringify({id: session._id, downloadURL})
-      })
-    
-  };
 
 
 
@@ -90,7 +65,7 @@ function Dashboard() {
     setLoading(true)
     try{
       e.preventDefault();
-      if (!title || !cordinator || ! school) {
+      if (!title || !cordinator) {
         setError('please fill the fields')
          setLoading(false)
          return;
@@ -101,7 +76,7 @@ function Dashboard() {
       headers: {
         'Content-Type': 'applications/json',
       },
-      body: JSON.stringify({title, cordinator, school,  username: session.username})
+      body: JSON.stringify({title, cordinator,  username: session.username})
     })
       const data = await response.json()
       const ok = data?.message === 'ok'
@@ -155,24 +130,6 @@ function Dashboard() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" >
-
-          <div>
-          
-              <label className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
-                School Name
-              </label>
-              <div className="mt-2">
-                <input
-                  name="School Name"
-                  value={school}
-                  onChange={(e)=>setSchool(e.target.value)}
-                  type="text"
-                  required
-                  className="block bg-white px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <ProfilePhotoUploader previewImg={previewImg} setPreviewImg={setPreviewImg}/>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 dark:text-white">
                 Quiz Title

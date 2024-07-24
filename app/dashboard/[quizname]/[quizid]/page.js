@@ -17,6 +17,7 @@ function Quiz() {
   quizname = decodeURIComponent(quizname)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [selectedValue, setSelectedValue] = useState(1);
 
   useEffect(() => {
     const getTeams = async () => {
@@ -40,7 +41,7 @@ function Quiz() {
     getTeams()
   }, [session, quizname])
 
-  const scoreChange = async (teamname, action)=> {
+  const scoreChange = async (teamname, action, selectedValue)=> {
     console.log(`Changing score for ${teamname} by ${action}`)
     try {
       const response = await fetch('/api/score', {
@@ -49,7 +50,7 @@ function Quiz() {
         headers: {
           'Content-Type': 'applications/json',
         },
-        body: JSON.stringify({username: session?.username, quizname, teamname, action})
+        body: JSON.stringify({username: session?.username, quizname, teamname, action, points: selectedValue})
       })
         const data = await response.json()
         const ok = data?.message === 'ok'
@@ -58,9 +59,9 @@ function Quiz() {
             const { teams } = quiz;
             setTeams(teams || [])
             if(action === 'increase'){
-              toast(`One Point for ${teamname}`, { icon: '😊', duration: '500'})
+              toast(`${selectedValue} Point for ${teamname}`, { icon: '😊', duration: '500'})
             }else if(action === 'decrease'){
-              toast(`One Minus Point for ${teamname}`, { icon: '😢', duration: '500'})
+              toast(`${selectedValue} Minus Point for ${teamname}`, { icon: '😢', duration: '500'})
             }
         }
     } catch (error) {
@@ -78,10 +79,10 @@ function Quiz() {
         if (teams[index]) {
           if (event.altKey) {
             console.log(`Decreasing score for team ${teams[index].name}`);
-            scoreChange(teams[index].name, 'decrease');
+            scoreChange(teams[index].name, 'decrease', selectedValue);
           } else {
             console.log(`Increasing score for team ${teams[index].name}`);
-            scoreChange(teams[index].name, 'increase');
+            scoreChange(teams[index].name, 'increase', selectedValue);
           }
         }
       }
@@ -95,6 +96,9 @@ function Quiz() {
   }, [teams, scoreChange]);
 
 
+  const handleChange = (event) => {
+    setSelectedValue(parseInt(event.target.value));
+  };
 
   const finishQuiz = async () => {
     setLoading(true)
@@ -124,7 +128,17 @@ function Quiz() {
     <>
       <Navbar />
       <div className="container relative mx-auto p-4  text-black ">
-        <h2 className="text-3xl font-bold pb-4 dark:text-white mb-4 font-score text-black justify-center items-center flex text-red"> SCOREBOARD</h2>
+        <h2 className="text-3xl font-bold pb-4 dark:text-white mb-4 font-score justify-center items-center flex text-red"> SCOREBOARD</h2>
+        <div className='grid lg:flex gap-3'>
+        <p className=''>Custom points: </p>
+        <select className='outline-none border border-red rounded-md' id="number-select" value={selectedValue} onChange={handleChange}>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={5}>5</option>
+        <option value={10}>10</option>
+      </select>
+        </div>
         
           {teams.length > 0 ?
           <>

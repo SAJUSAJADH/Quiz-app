@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         await mongoose.connect(process.env.MONGO_URI);
-        const { title, cordinator, school, username } = await request.json();
+        const { title, cordinator, username } = await request.json();
 
         // Find the user
         const user = await User.findOne({ username });
@@ -23,7 +23,6 @@ export async function POST(request) {
         const newQuiz = {
             title: title,
             cordinator: { name: cordinator },
-            school: school,
             teams: [],
             winner: null,
         };

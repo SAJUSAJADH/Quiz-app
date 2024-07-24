@@ -17,4 +17,6 @@ html {
 
   }
 
- 
+  .number-input {
+    pointer-events: none;
+}

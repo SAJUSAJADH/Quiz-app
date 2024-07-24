@@ -6,9 +6,15 @@ const TeamSchema = new mongoose.Schema({
         type: String,
  
     },
+    school: {
+        type: String
+    },
     members: {
         type: String, 
    
+    },
+    url: {
+        type: String,
     },
     score: {
         type: Number,
@@ -24,9 +30,6 @@ const QuizSchema = new mongoose.Schema({
     cordinator: {
         name: String
     },
-    school: {
-        type: String
-    },
     teams: [TeamSchema],
     winner: {
         type: [String],
@@ -39,9 +42,6 @@ const UserSchema = new mongoose.Schema({
         type: String
     },
     password: {
-        type: String
-    },
-    profilepic: {
         type: String
     },
     quizzes: [QuizSchema]

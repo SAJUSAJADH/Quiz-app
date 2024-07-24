@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+
+
+import React from 'react';
 
 const ProfilePhotoUploader = ({previewImg, setPreviewImg}) => {
   
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
+   if(file){
     setPreviewImg(URL.createObjectURL(file));
+   }
   };
 
   return (

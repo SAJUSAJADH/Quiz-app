@@ -6,7 +6,7 @@ export async function POST(request) {
     try {
         await mongoose.connect(process.env.MONGO_URI)
         
-        const { username, quizname, teamname, action } = await request.json()
+        const { username, quizname, teamname, action, points } = await request.json()
         
         // Find the user by username
         const user = await User.findOne({ username })
@@ -28,10 +28,10 @@ export async function POST(request) {
 
         // Update the team's score
          if(action === 'increase'){
-            team.score += 1
+            team.score += points
          }
          if(action === 'decrease' && team.score > 0){
-            team.score -= 1
+            team.score -= points
          }
 
         // Save the updated user
