@@ -25,14 +25,15 @@ const Navbar = () => {
   return (
     <nav className="flex h-[72px] items-center justify-between px-6 sm:p-16 xl:w-full xl:px-0 xl:py-20 z-50">
       
-        <section className="flex items-center justify-start gap-4 sm:gap-6">
+        <section className="flex items-center justify-start gap-2 sm:gap-6">
+       
           <div
             className="flex h-10 cursor-pointer w-10 items-center justify-center rounded-md sm:h-14 sm:w-14"
            onClick={()=>router.push('/')}
           >
-            <Image width={10} height={10} src='/icon-html.svg' alt='logo' className="h-7 w-7 sm:h-10 sm:w-10" />
+ <Image quality={90} width={40} height={40} src='/logo.png' alt='logo' className="" />
           </div>
-          <h1 onClick={()=>router.push('/')} className={`text-[18px] ${theme === 'dark' ? 'text-white' : 'text-black'} font-bold text-teal-500 font-title cursor-pointer sm:text-[28px]`}>Chinmaya</h1>
+          <h1 onClick={()=>router.push('/')} className={`text-[18px] ${theme === 'dark' ? 'text-white' : 'text-black'} font-bold text-cyan-600 font-title cursor-pointer sm:text-[28px]`}>Chinmaya Vidyalaya</h1>
         </section>
       <section className="flex items-center gap-2 sm:gap-3">
         {theme === 'dark' ? (

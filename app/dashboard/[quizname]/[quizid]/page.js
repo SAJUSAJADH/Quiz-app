@@ -97,7 +97,9 @@ function Quiz() {
 
 
   const handleChange = (event) => {
-    setSelectedValue(parseInt(event.target.value));
+    const value = parseInt(event.target.value);
+    console.log(`Dropdown value changed to: ${value}`);
+    setSelectedValue(value);
   };
 
   const finishQuiz = async () => {
