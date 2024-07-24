@@ -42,7 +42,7 @@ async function Winner({params}) {
 
     quiz.winner = winners;
     await user.save();
-    
+   
 
   return (
     <>

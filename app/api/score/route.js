@@ -30,7 +30,7 @@ export async function POST(request) {
          if(action === 'increase'){
             team.score += points
          }
-         if(action === 'decrease' && team.score > 0){
+         if(action === 'decrease'){
             team.score -= points
          }
 

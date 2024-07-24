@@ -130,8 +130,8 @@ function Quiz() {
       <div className="container relative mx-auto p-4  text-black ">
         <h2 className="text-3xl font-bold pb-4 dark:text-white mb-4 font-score justify-center items-center flex text-red"> SCOREBOARD</h2>
         <div className='grid lg:flex gap-3'>
-        <p className=''>Custom points: </p>
-        <select className='outline-none border border-red rounded-md' id="number-select" value={selectedValue} onChange={handleChange}>
+        <p className='dark:text-white'>Custom points: </p>
+        <select className='outline-none border dark:bg-white border-red rounded-md' id="number-select" value={selectedValue} onChange={handleChange}>
         <option value={1}>1</option>
         <option value={2}>2</option>
         <option value={3}>3</option>
